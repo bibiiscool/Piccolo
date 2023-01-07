@@ -17,7 +17,30 @@ void main()
 
     highp vec4 color       = subpassLoad(in_color).rgba;
     
-    // texture(color_grading_lut_texture_sampler, uv)
+    // 图序号
+    int index = int(color.b*_COLORS);
+    // 图起始位置
+    highp float start = float(index)/_COLORS;
+    // u
+    highp float u1 = start + color.r/_COLORS;
 
-    out_color = color;
+    // 图序号
+    highp float index2 = ceil(color.b*_COLORS);
+    // 图起始位置
+    highp float start2 = float(index2)/_COLORS;
+    // u
+    highp float u2 = start2 + color.r/_COLORS;
+
+    highp float v = color.g;
+
+    highp vec2 uv1 = vec2(u1, v);
+    highp vec4 sampled_lut1 = texture(color_grading_lut_texture_sampler, uv1);
+
+    highp vec2 uv2 = vec2(u2, v);
+    highp vec4 sampled_lut2 = texture(color_grading_lut_texture_sampler, uv2);
+
+    highp float lerp =    color.b*_COLORS- floor(color.b*_COLORS);
+    highp vec4 sampled_lut = mix(sampled_lut1, sampled_lut2, lerp);
+
+    out_color = sampled_lut;
 }
