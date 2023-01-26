@@ -58,18 +58,21 @@ void AnimationPose::blend(const AnimationPose& pose)
 {
     for (int i = 0; i < m_bone_poses.size(); i++)
     {
-        auto&       bone_trans_one = m_bone_poses[i];
-        const auto& bone_trans_two = pose.m_bone_poses[i];
+        auto&       bone_pose_one = m_bone_poses[i];
+        const auto& bone_pose_two = pose.m_bone_poses[i];
+        auto&       pose_one_weight = m_weight.m_blend_weight[i];
+        const auto& pose_two_weight = pose.m_weight.m_blend_weight[i];
 
-        // float sum_weight =
-        // if (sum_weight != 0)
+        float sum_weight = pose_one_weight + pose_two_weight;
+        if (sum_weight != 0)
+        // if (sum_weight - 0 > 0.0000001f || sum_weight - 0 < -0.0000001f)
         {
-            // float cur_weight =
-            // m_weight.m_blend_weight[i] =
-            // bone_trans_one.m_position  =
-            // bone_trans_one.m_scale     =
-            // bone_trans_one.m_rotation  =
+            float cur_weight = pose_two_weight / sum_weight;
+            bone_pose_one.m_position  = Vector3::lerp(bone_pose_one.m_position, bone_pose_two.m_position, cur_weight);
+            bone_pose_one.m_scale     = Vector3::lerp(bone_pose_one.m_scale, bone_pose_two.m_scale, cur_weight);
+            bone_pose_one.m_rotation  = Quaternion::sLerp(cur_weight,bone_pose_one.m_rotation, bone_pose_two.m_rotation, true);
         }
+        pose_one_weight = sum_weight;
     }
 }
 

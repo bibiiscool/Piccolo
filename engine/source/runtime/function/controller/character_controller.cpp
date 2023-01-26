@@ -77,16 +77,20 @@ namespace Pilot
         hits.clear();
 
         // side pass
-        //if (physics_scene->sweep(
-        //    m_rigidbody_shape,
-        //    /**** [0] ****/,
-        //    /**** [1] ****/,
-        //    /**** [2] ****/,
-        //    hits))
-        //{
-        //    final_position += /**** [3] ****/;
-        //}
-        //else
+        if (physics_scene->sweep(
+           m_rigidbody_shape,
+           world_transform.getMatrix(),
+           horizontal_direction,
+           horizontal_displacement.length(),
+           hits))
+        {
+            if(hits[0].hit_distance < 0.5f){// When the horizontal distance is less than half of length of bounding box, it may be stucked in the vertical direction
+                // don't move in case of jumping into something
+            }else{
+                final_position += hits[0].hit_distance * horizontal_direction;
+            }
+        }
+        else
         {
             final_position += horizontal_displacement;
         }
