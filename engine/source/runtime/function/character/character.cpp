@@ -4,6 +4,7 @@
 #include "runtime/function/framework/component/motor/motor_component.h"
 #include "runtime/function/framework/component/transform/transform_component.h"
 #include "runtime/function/input/input_system.h"
+#include "runtime/function/framework/component/name/name_component.h"
 
 namespace Piccolo
 {
@@ -29,6 +30,7 @@ namespace Piccolo
             const Transform& transform = transform_component->getTransformConst();
             m_position                 = transform.m_position;
             m_rotation                 = transform.m_rotation;
+            // m_name = m_character_object->tryGetComponentConst(NameComponent)->getName();
         }
         else
         {

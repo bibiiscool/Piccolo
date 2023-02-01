@@ -29,6 +29,7 @@ namespace Piccolo
     private:
         Vector3    m_position;
         Quaternion m_rotation;
+        // std::string m_name;
 
         std::shared_ptr<GObject> m_character_object;
 

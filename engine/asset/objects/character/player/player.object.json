@@ -24,6 +24,10 @@
             "$typeName": "TransformComponent"
         },
         {
+            "$context": {"name":"nihao"},
+            "$typeName": "NameComponent"
+        },
+        {
             "$context": {
                 "animation_res": {
                     "blend_state": {
